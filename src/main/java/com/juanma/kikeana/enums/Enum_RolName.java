@@ -1,4 +1,4 @@
-package com.juanma.kikeana.entity;
+package com.juanma.kikeana.enums;
 
 import javax.persistence.Table;
 
