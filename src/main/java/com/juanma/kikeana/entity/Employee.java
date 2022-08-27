@@ -1,7 +1,11 @@
 package com.juanma.kikeana.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -9,66 +13,31 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @Column(name = "id", nullable = false, unique = true)
+    private Long id;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
 
+    @OneToOne
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
+    @OneToMany
+    private Enum_RolName role;
+
     @ManyToOne
+    @JoinColumn(name = "enterprise_id")
     private Enterprise enterprise;
 
-    private Date updateAt;
+    @OneToMany
+    @JsonManagedReference
+    private List<Transaction> transaction = new ArrayList<>();
+
+    @Column(name = "createdAt")
     private Date createdAt;
 
-    public Employee(){
+    @Column(name = "updatedAt")
+    private Date updatedAt;
 
-    }
-
-    public Employee(long id, String email, Enterprise enterprise, Date updateAt, Date createdAt) {
-        this.id = id;
-        this.email = email;
-        this.enterprise = enterprise;
-        this.updateAt = updateAt;
-        this.createdAt = createdAt;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Enterprise getEnterprise() {
-        return enterprise;
-    }
-
-    public void setEnterprise(Enterprise enterprise) {
-        this.enterprise = enterprise;
-    }
-
-    public Date getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
 }
